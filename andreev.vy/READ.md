@@ -1,9 +1,5 @@
 Андреев Валентин
 
-
-
-
-
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -21,14 +17,10 @@
             int Rooms_Counted = 0; 
             int Move_Left_Right = 0;
             int Move_Up_Down = 0;
-            //int Road_Steps = 1;
             Random random = new Random();
 
-            //string Draw_Char = "X";
             string[,] Draw_Game_Map = new string[120, 30];
             string[,] Player = new string[120,30];
-
-            //.string Direction = ".";
 
             do
             {
