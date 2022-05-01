@@ -1,13 +1,17 @@
 Андреев Валентин
-@Fiksa_YaYuta
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Roguelike01
-{
+
+
+
+
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    namespace Roguelike01
+    {
     class Program
     {
         static void Main(string[] args)
@@ -18,7 +22,6 @@ namespace Roguelike01
             int Move_Left_Right = 0;
             int Move_Up_Down = 0;
             //int Road_Steps = 1;
-
             Random random = new Random();
 
             //string Draw_Char = "X";
