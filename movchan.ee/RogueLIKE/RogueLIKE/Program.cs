@@ -66,8 +66,8 @@ namespace RogueLIKE
     {
       var rand = new Random();
       Hero monster = new Hero();
-      monster.x = rand.Next(sizeMap-2, sizeMap-2);
-      monster.y = rand.Next(sizeMap-2, sizeMap-2);
+      monster.x = rand.Next(2, sizeMap-2);
+      monster.y = rand.Next(2, sizeMap-2);
       monster.Health = rand.Next(1, 7);
       monster.Damage = rand.Next(1, 5);
       monster.sign = 'M';
@@ -78,12 +78,20 @@ namespace RogueLIKE
     {
       var rand = new Random();
       int sizeMap = rand.Next(5, 16);
-
-      Hero mainHero = CreateHeroCharacter(sizeMap);
-      Hero monster = CreateMonsterCharacter(sizeMap);
+      int numberMonst = rand.Next(sizeMap/4, sizeMap/2);
+      
+      Hero[] monsters = new Hero[numberMonst];
       char[,] map = CreatMap(sizeMap);
+      for(int i = 0; i < numberMonst; i++)
+      {
+        monsters[i] = CreateMonsterCharacter(sizeMap);
+        map[monsters[i].x, monsters[i].y] = monsters[i].sign;
+      }
+       
+      Hero mainHero = CreateHeroCharacter(sizeMap);
       map[mainHero.x, mainHero.y] = mainHero.sign;
-      map[monster.x, monster.y] = monster.sign;
+      
+      
 
       PrintMap(sizeMap, map);
     }
