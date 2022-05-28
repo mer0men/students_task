@@ -36,7 +36,7 @@ namespace RogueLIKE
             map[i, j] = '.';
           }
         }
-        map[sizeMap - 2, sizeMap - 1] = ':';
+        map[sizeMap - 2, sizeMap - 2] = '<';
       }
       return map;
     }
@@ -58,7 +58,7 @@ namespace RogueLIKE
       Hero mainHero = new Hero();
       mainHero.x = 1;
       mainHero.y = 1;
-      mainHero.Health = 10;
+      mainHero.Health = 20;
       mainHero.Damage = 3;
       mainHero.sign = '@';
       mainHero.IsHero = true;
@@ -78,7 +78,7 @@ namespace RogueLIKE
       return monster;
     }
 
-    static Hero MotionHero(int sizeMap , Hero mainHero)
+    static Hero MotionHero(int sizeMap , Hero mainHero, Hero[] monsters, char[,] map)
     {
       ConsoleKeyInfo key;
       key = Console.ReadKey(true);
@@ -89,24 +89,68 @@ namespace RogueLIKE
         case ConsoleKey.DownArrow:
           x += 1;
           if ((x <= (sizeMap - 2)) && x >= 1)
+          {
+            Console.SetCursorPosition(mainHero.y, mainHero.x);
+            Console.Write(map[mainHero.y, mainHero.x]);
             mainHero.x += 1;
+            Console.SetCursorPosition(mainHero.y, mainHero.x);
+            Console.Write(mainHero.sign);
+          }
           break;
         case ConsoleKey.UpArrow:
           x -= 1;
           if ((x <= (sizeMap - 2)) && x >= 1)
+          {
+            Console.SetCursorPosition(mainHero.y, mainHero.x);
+            Console.Write(map[mainHero.y, mainHero.x]);
             mainHero.x -= 1;
+            Console.SetCursorPosition(mainHero.y, mainHero.x);
+            Console.Write(mainHero.sign);
+          }
           break;
         case ConsoleKey.RightArrow:
           y += 1;
           if ((y <= (sizeMap - 2)) && y >= 1)
+          {
+            Console.SetCursorPosition(mainHero.y, mainHero.x);
+            Console.Write(map[mainHero.y, mainHero.x]);
             mainHero.y += 1;
+            Console.SetCursorPosition(mainHero.y, mainHero.x);
+            Console.Write(mainHero.sign);
+          }
           break;
         case ConsoleKey.LeftArrow:
           y -= 1;
           if ((y <= (sizeMap - 2)) && y >= 1)
+          {
+            Console.SetCursorPosition(mainHero.y, mainHero.x);
+            Console.Write(map[mainHero.y, mainHero.x]);
             mainHero.y -= 1;
+            Console.SetCursorPosition(mainHero.y, mainHero.x);
+            Console.Write(mainHero.sign);
+          }
           break;
+        case ConsoleKey.F:
+          mainHero = Collision(mainHero, monsters);
+          break;
+          
       }
+      return mainHero;
+    }
+
+    static Hero Collision(Hero mainHero, Hero[] monsters)
+    {
+      foreach (var monster in monsters)
+      {
+        bool collis = ((Math.Abs(mainHero.x - monster.x) == 1 || Math.Abs(mainHero.x - monster.x) == 0) && 
+                       (Math.Abs(mainHero.y - monster.y) == 1 || Math.Abs(mainHero.y - monster.y) == 0));
+
+        if (collis)
+        {
+          mainHero.Health = 0;
+        }
+      }
+      
       return mainHero;
     }
 
@@ -127,14 +171,26 @@ namespace RogueLIKE
       Hero mainHero = CreateHeroCharacter(sizeMap);
       map[mainHero.x, mainHero.y] = mainHero.sign;
       PrintMap(sizeMap, map);
+      Console.WriteLine($"Количество XP: {mainHero.Health}");
+      map[mainHero.x, mainHero.y] = '.';
       
       while (true)
       {
-        map[mainHero.x, mainHero.y] = '.';
-        mainHero = MotionHero(sizeMap, mainHero);
-      
-        map[mainHero.x, mainHero.y] = mainHero.sign;
-        PrintMap(sizeMap, map);
+        if (mainHero.Health == 0)
+        {
+          Console.SetCursorPosition(mainHero.y, mainHero.x);
+          Console.Write('X'); 
+          Console.SetCursorPosition(0, sizeMap);
+          Console.WriteLine("Количество XP: 0 - Вы проиграли!");
+          break;
+        }
+        else
+        {
+          mainHero = MotionHero(sizeMap, mainHero, monsters, map);
+          Console.SetCursorPosition(0, sizeMap);
+          Console.WriteLine($"Количество XP: {mainHero.Health}");
+        }
+
       }
     }
 
