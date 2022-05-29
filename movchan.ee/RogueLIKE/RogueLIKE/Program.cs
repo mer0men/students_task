@@ -91,7 +91,7 @@ namespace RogueLIKE
           if ((x <= (sizeMap - 2)) && x >= 1)
           {
             Console.SetCursorPosition(mainHero.y, mainHero.x);
-            Console.Write(map[mainHero.y, mainHero.x]);
+            Console.Write(map[mainHero.x, mainHero.y]);
             mainHero.x += 1;
             Console.SetCursorPosition(mainHero.y, mainHero.x);
             Console.Write(mainHero.sign);
@@ -102,7 +102,7 @@ namespace RogueLIKE
           if ((x <= (sizeMap - 2)) && x >= 1)
           {
             Console.SetCursorPosition(mainHero.y, mainHero.x);
-            Console.Write(map[mainHero.y, mainHero.x]);
+            Console.Write(map[mainHero.x, mainHero.y]);
             mainHero.x -= 1;
             Console.SetCursorPosition(mainHero.y, mainHero.x);
             Console.Write(mainHero.sign);
@@ -113,7 +113,7 @@ namespace RogueLIKE
           if ((y <= (sizeMap - 2)) && y >= 1)
           {
             Console.SetCursorPosition(mainHero.y, mainHero.x);
-            Console.Write(map[mainHero.y, mainHero.x]);
+            Console.Write(map[mainHero.x, mainHero.y]);
             mainHero.y += 1;
             Console.SetCursorPosition(mainHero.y, mainHero.x);
             Console.Write(mainHero.sign);
@@ -124,7 +124,7 @@ namespace RogueLIKE
           if ((y <= (sizeMap - 2)) && y >= 1)
           {
             Console.SetCursorPosition(mainHero.y, mainHero.x);
-            Console.Write(map[mainHero.y, mainHero.x]);
+            Console.Write(map[mainHero.x, mainHero.y]);
             mainHero.y -= 1;
             Console.SetCursorPosition(mainHero.y, mainHero.x);
             Console.Write(mainHero.sign);
@@ -184,13 +184,9 @@ namespace RogueLIKE
           Console.WriteLine("Количество XP: 0 - Вы проиграли!");
           break;
         }
-        else
-        {
-          mainHero = MotionHero(sizeMap, mainHero, monsters, map);
-          Console.SetCursorPosition(0, sizeMap);
-          Console.WriteLine($"Количество XP: {mainHero.Health}");
-        }
-
+        mainHero = MotionHero(sizeMap, mainHero, monsters, map);
+        Console.SetCursorPosition(0, sizeMap);
+        Console.WriteLine($"Количество XP: {mainHero.Health}");
       }
     }
 
