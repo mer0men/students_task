@@ -8,7 +8,7 @@ namespace RogueLIKE
     public int x;
     public int y;
     public char sign;
-    public bool transparent;
+    // public bool transparent;
     public bool IsHero;
   }
 
@@ -78,7 +78,7 @@ namespace RogueLIKE
       return monster;
     }
 
-    static Hero MotionHero(int sizeMap , Hero mainHero, Hero[] monsters, char[,] map)
+    static char[,] MotionHero(int sizeMap , Hero mainHero, Hero[] monsters, char[,] map)
     {
       ConsoleKeyInfo key;
       key = Console.ReadKey(true);
@@ -131,14 +131,14 @@ namespace RogueLIKE
           }
           break;
         case ConsoleKey.F:
-          mainHero = Collision(mainHero, monsters);
+          map = Collision(mainHero, monsters, map);
           break;
           
       }
-      return mainHero;
+      return map;
     }
 
-    static Hero Collision(Hero mainHero, Hero[] monsters)
+    static char[,] Collision(Hero mainHero, Hero[] monsters, char[,] map)
     {
       foreach (var monster in monsters)
       {
@@ -147,14 +147,21 @@ namespace RogueLIKE
 
         if (collis)
         {
-          mainHero.Health = 0;
+          monster.Health -= mainHero.Damage;
+          if (monster.Health <= 0)
+          {
+            Console.SetCursorPosition(monster.y,monster.x);
+            Console.Write('.');
+            map[monster.x, monster.y] = '.';
+            
+          }
         }
       }
       
-      return mainHero;
+      return map;
     }
 
-    static void Main()
+    static Hero PlayField()
     {
       var rand = new Random();
       int sizeMap = rand.Next(5, 16);
@@ -182,13 +189,26 @@ namespace RogueLIKE
           Console.Write('X'); 
           Console.SetCursorPosition(0, sizeMap);
           Console.WriteLine("Количество XP: 0 - Вы проиграли!");
-          break;
+          Console.Clear();
+          return mainHero;
         }
-        mainHero = MotionHero(sizeMap, mainHero, monsters, map);
+        map = MotionHero(sizeMap, mainHero, monsters, map);
         Console.SetCursorPosition(0, sizeMap);
         Console.WriteLine($"Количество XP: {mainHero.Health}");
+        if (mainHero.y == sizeMap - 2 && mainHero.x == sizeMap - 2)
+        {
+          Console.Clear();
+          return mainHero;
+        }
       }
     }
 
+    static void Main()
+    {
+      while (true)
+      {
+        PlayField();
+      }
+    }
   }
 }
