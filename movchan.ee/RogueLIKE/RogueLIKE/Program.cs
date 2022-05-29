@@ -71,14 +71,14 @@ namespace RogueLIKE
       Hero monster = new Hero();
       monster.x = rand.Next(2, sizeMap - 2);
       monster.y = rand.Next(2, sizeMap - 2);
-      monster.Health = rand.Next(1, 7);
+      monster.Health = rand.Next(6, 16);
       monster.Damage = rand.Next(1, 5);
       monster.sign = 'M';
       monster.IsHero = false;
       return monster;
     }
 
-    static char[,] MotionHero(int sizeMap , Hero mainHero, Hero[] monsters, char[,] map)
+    static char[,] MotionHero(int sizeMap , Hero mainHero,ref Hero[] monsters, char[,] map)
     {
       ConsoleKeyInfo key;
       key = Console.ReadKey(true);
@@ -131,42 +131,55 @@ namespace RogueLIKE
           }
           break;
         case ConsoleKey.F:
-          map = Collision(mainHero, monsters, map);
+          map = Collision(mainHero,ref monsters, map);
           break;
           
       }
       return map;
     }
 
-    static char[,] Collision(Hero mainHero, Hero[] monsters, char[,] map)
+    static void RemoveElem(ref Hero[] array, int index)
     {
-      foreach (var monster in monsters)
+      Hero[] newArray = new Hero[array.Length - 1];
+
+      for (int i = 0; i < index; i++)
+        newArray[i] = array[i];
+      
+      for (int i = index + 1; i < array.Length; i++)
+        newArray[i - 1] = array[i];
+
+      array = newArray;
+      
+    }
+
+    static char[,] Collision(Hero mainHero,ref Hero[] monsters, char[,] map)
+    {
+      for (int i = 0; i < monsters.Length; i++)
       {
-        bool collis = ((Math.Abs(mainHero.x - monster.x) == 1 || Math.Abs(mainHero.x - monster.x) == 0) && 
-                       (Math.Abs(mainHero.y - monster.y) == 1 || Math.Abs(mainHero.y - monster.y) == 0));
+        bool collis = ((Math.Abs(mainHero.x - monsters[i].x) == 1 || Math.Abs(mainHero.x - monsters[i].x) == 0) && 
+                       (Math.Abs(mainHero.y - monsters[i].y) == 1 || Math.Abs(mainHero.y - monsters[i].y) == 0));
 
         if (collis)
         {
-          monster.Health -= mainHero.Damage;
-          if (monster.Health <= 0)
+          monsters[i].Health -= mainHero.Damage;
+          // if (mainHero.Health > 0) mainHero.Health -= monster.Damage;
+          
+          if (monsters[i].Health <= 0)
           {
-            Console.SetCursorPosition(monster.y,monster.x);
+            Console.SetCursorPosition(monsters[i].y,monsters[i].x);
             Console.Write('.');
-            map[monster.x, monster.y] = '.';
-            
+            map[monsters[i].x, monsters[i].y] = '.';
+            RemoveElem(ref monsters, i);
           }
         }
+
       }
       
       return map;
     }
 
-    static Hero PlayField()
+    static Hero PlayField(int sizeMap, int numberMonst, Hero mainHero)
     {
-      var rand = new Random();
-      int sizeMap = rand.Next(5, 16);
-      int numberMonst = rand.Next(sizeMap/4, sizeMap/2);
-      
       Hero[] monsters = new Hero[numberMonst];
       char[,] map = CreatMap(sizeMap);
       for(int i = 0; i < numberMonst; i++)
@@ -174,28 +187,25 @@ namespace RogueLIKE
         monsters[i] = CreateMonsterCharacter(sizeMap);
         map[monsters[i].x, monsters[i].y] = monsters[i].sign;
       }
-       
-      Hero mainHero = CreateHeroCharacter(sizeMap);
       map[mainHero.x, mainHero.y] = mainHero.sign;
       PrintMap(sizeMap, map);
-      Console.WriteLine($"Количество XP: {mainHero.Health}");
       map[mainHero.x, mainHero.y] = '.';
+      Console.WriteLine($"Количество XP: {mainHero.Health}");
       
       while (true)
       {
+        map = MotionHero(sizeMap, mainHero,ref monsters, map);
+        Console.SetCursorPosition(0, sizeMap);
+        Console.WriteLine($"Количество XP: {mainHero.Health}");
         if (mainHero.Health == 0)
         {
           Console.SetCursorPosition(mainHero.y, mainHero.x);
           Console.Write('X'); 
           Console.SetCursorPosition(0, sizeMap);
           Console.WriteLine("Количество XP: 0 - Вы проиграли!");
-          Console.Clear();
           return mainHero;
         }
-        map = MotionHero(sizeMap, mainHero, monsters, map);
-        Console.SetCursorPosition(0, sizeMap);
-        Console.WriteLine($"Количество XP: {mainHero.Health}");
-        if (mainHero.y == sizeMap - 2 && mainHero.x == sizeMap - 2)
+        if (mainHero.y == sizeMap - 2 && mainHero.x == sizeMap - 2 && monsters.Length == 0)
         {
           Console.Clear();
           return mainHero;
@@ -207,7 +217,12 @@ namespace RogueLIKE
     {
       while (true)
       {
-        PlayField();
+        var rand = new Random();
+        int sizeMap = rand.Next(5, 16);
+        int numberMonst = rand.Next(sizeMap/4, sizeMap/2);
+        Hero mainHero = CreateHeroCharacter(sizeMap);
+        
+        if (PlayField(sizeMap, numberMonst, mainHero).Health == 0) break;
       }
     }
   }
