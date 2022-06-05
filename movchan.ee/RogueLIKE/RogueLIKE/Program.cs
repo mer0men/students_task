@@ -7,7 +7,9 @@ namespace RogueLIKE
   {
     public int x;
     public int y;
+
     public char sign;
+
     // public bool transparent;
     public bool IsHero;
   }
@@ -43,8 +45,10 @@ namespace RogueLIKE
             map[i, j] = '.';
           }
         }
+
         map[sizeMap - 2, sizeMap - 2] = '<';
       }
+
       return map;
     }
 
@@ -56,6 +60,7 @@ namespace RogueLIKE
         {
           Console.Write(map[i, j]);
         }
+
         Console.WriteLine();
       }
     }
@@ -97,78 +102,82 @@ namespace RogueLIKE
       bullet.Speed = 1;
       return bullet;
     }
-    
+
     static void RemoveElem(ref Hero[] array, int index)
     {
       Hero[] newArray = new Hero[array.Length - 1];
 
       for (int i = 0; i < index; i++)
         newArray[i] = array[i];
-      
+
       for (int i = index + 1; i < array.Length; i++)
         newArray[i - 1] = array[i];
 
       array = newArray;
-      
+
     }
 
-    static char[,] Collision(ref Hero mainHero,ref Hero[] monsters, ref char[,] map, Bullet bullet)
+    static char[,] Collision(ref Hero mainHero, ref Hero[] monsters, ref char[,] map, Bullet bullet)
     {
       for (int i = 0; i < monsters.Length; i++)
       {
-        bool collisHero = ((Math.Abs(mainHero.x - monsters[i].x) == 1 || Math.Abs(mainHero.x - monsters[i].x) == 0) && 
-                       (Math.Abs(mainHero.y - monsters[i].y) == 1 || Math.Abs(mainHero.y - monsters[i].y) == 0));
+        bool collisHero = ((Math.Abs(mainHero.x - monsters[i].x) == 1 || Math.Abs(mainHero.x - monsters[i].x) == 0) &&
+                           (Math.Abs(mainHero.y - monsters[i].y) == 1 || Math.Abs(mainHero.y - monsters[i].y) == 0));
 
         bool collisBull = bullet.x == monsters[i].x && bullet.y == monsters[i].y;
 
         if (collisHero) monsters[i].Health -= mainHero.Damage;
-        
+
         if (collisBull) monsters[i].Health -= bullet.Damage;
-        
+
         if (monsters[i].Health <= 0)
         {
-          Console.SetCursorPosition(monsters[i].y,monsters[i].x);
+          Console.SetCursorPosition(monsters[i].y, monsters[i].x);
           Console.Write('.');
           map[monsters[i].x, monsters[i].y] = '.';
           RemoveElem(ref monsters, i);
         }
-        
+
       }
+
       return map;
     }
 
-    static char[,] Shooting(char direct,ref Hero mainHero, ref Hero[] monsters, int sizeMap, ref char[,] map)
+    static char[,] Shooting(char direct, ref Hero mainHero, ref Hero[] monsters, int sizeMap, ref char[,] map)
     {
       Bullet bul = CreateBullet(direct, mainHero);
+      // MotionMonser(ref monsters, ref mainHero, ref map, sizeMap);
       for (int i = 0; i < 20; i++)
       {
         int x = bul.x, y = bul.y;
-        if (bul.Direction == 'u' && ((x-1 <= (sizeMap - 2)) && x-1 >= 1))
+        if (bul.Direction == 'u' && ((x - 1 <= (sizeMap - 2)) && x - 2 >= 1))
         {
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(map[bul.x, bul.y]);
           bul.x -= 1;
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(bul.sign);
-          Collision(ref mainHero,ref monsters, ref map, bul);
+          Collision(ref mainHero, ref monsters, ref map, bul);
         }
-        if (bul.Direction == 'd' && ((x+1 <= (sizeMap - 2)) && x+1 >= 1))
+
+        if (bul.Direction == 'd' && ((x + 1 <= (sizeMap - 2)) && x + 1 >= 1))
         {
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(map[bul.x, bul.y]);
           bul.x += 1;
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(bul.sign);
-          Collision(ref mainHero,ref monsters, ref map, bul);
+          Collision(ref mainHero, ref monsters, ref map, bul);
         }
-        if (bul.Direction == 'r' && ((y+1 <= (sizeMap - 2)) && y+1 >= 1))
+
+        if (bul.Direction == 'r' && ((y + 1 <= (sizeMap - 2)) && y + 1 >= 1))
         {
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(map[bul.x, bul.y]);
           bul.y += 1;
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(bul.sign);
-          Collision(ref mainHero,ref monsters, ref map, bul);
+          Collision(ref mainHero, ref monsters, ref map, bul);
         }
 
         if (bul.Direction == 'l' && ((y - 1 <= (sizeMap - 2)) && y - 1 >= 1))
@@ -178,63 +187,72 @@ namespace RogueLIKE
           bul.y -= 1;
           Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(bul.sign);
-          Collision(ref mainHero,ref monsters, ref map, bul);
+          Collision(ref mainHero, ref monsters, ref map, bul);
         }
-        if (bul.Direction == 'u' && ((x-1 <= (sizeMap - 2)) && x-1 >= 1))
+
+        if (bul.Direction == 'u' && ((x - 1 <= (sizeMap - 2)) && x - 1 >= 1))
         {
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(map[bul.x, bul.y]);
           bul.x -= 1;
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(bul.sign);
-          Collision(ref mainHero,ref monsters, ref map, bul);
+          Collision(ref mainHero, ref monsters, ref map, bul);
         }
-        
-        if (bul.Direction == 'q' && ((x-1 <= (sizeMap - 2)) && x-1 >= 1) && ((y - 1 <= (sizeMap - 2)) && y - 1 >= 1))
+
+        if (bul.Direction == 'q' && ((x - 1 <= (sizeMap - 2)) && x - 1 >= 1) &&
+            ((y - 1 <= (sizeMap - 2)) && y - 1 >= 1))
         {
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(map[bul.x, bul.y]);
           bul.x -= 1;
           bul.y -= 1;
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(bul.sign);
-          Collision(ref mainHero,ref monsters, ref map, bul);
+          Collision(ref mainHero, ref monsters, ref map, bul);
         }
-        if (bul.Direction == 'e' && ((x-1 <= (sizeMap - 2)) && x-1 >= 1) && ((y - 1 <= (sizeMap - 2)) && y - 1 >= 1))
+
+        if (bul.Direction == 'e' && ((x - 1 <= (sizeMap - 2)) && x - 1 >= 1) &&
+            ((y - 1 <= (sizeMap - 2)) && y - 1 >= 1))
         {
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(map[bul.x, bul.y]);
           bul.x -= 1;
           bul.y += 1;
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(bul.sign);
-          Collision(ref mainHero,ref monsters, ref map, bul);
+          Collision(ref mainHero, ref monsters, ref map, bul);
         }
-        if (bul.Direction == 'z' && ((x-1 <= (sizeMap - 2)) && x-1 >= 1) && ((y - 1 <= (sizeMap - 2)) && y - 1 >= 1))
+
+        if (bul.Direction == 'z' && ((x - 1 <= (sizeMap - 2)) && x - 1 >= 1) &&
+            ((y - 1 <= (sizeMap - 2)) && y - 1 >= 1))
         {
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(map[bul.x, bul.y]);
           bul.x += 1;
           bul.y -= 1;
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(bul.sign);
-          Collision(ref mainHero,ref monsters, ref map, bul);
+          Collision(ref mainHero, ref monsters, ref map, bul);
         }
-        if (bul.Direction == 'x' && ((x-1 <= (sizeMap - 2)) && x-1 >= 1) && ((y - 1 <= (sizeMap - 2)) && y - 1 >= 1))
+
+        if (bul.Direction == 'x' && ((x - 1 <= (sizeMap - 2)) && x - 1 >= 1) &&
+            ((y - 1 <= (sizeMap - 2)) && y - 1 >= 1))
         {
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(map[bul.x, bul.y]);
           bul.x += 1;
           bul.y += 1;
-          Console.SetCursorPosition(bul.y,bul.x);
+          Console.SetCursorPosition(bul.y, bul.x);
           Console.Write(bul.sign);
-          Collision(ref mainHero,ref monsters, ref map, bul);
+          Collision(ref mainHero, ref monsters, ref map, bul);
         }
       }
+
       return map;
     }
 
-    static Hero[] MotionMonser(ref Hero[] monsters,ref Hero mainHero, ref char[,] map, int sizeMap)
+    /*static void MotionMonser(ref Hero[] monsters, ref Hero mainHero, ref char[,] map, int sizeMap)
     {
       var rand = new Random();
       int stepX = rand.Next(-1, 1);
@@ -243,8 +261,8 @@ namespace RogueLIKE
       {
         for (int j = 0; j < monsters.Length; j++)
         {
-          bool notCollisMonst = (i!=j && (monsters[i].x != monsters[j].x && monsters[i].y != monsters[j].y));
-          
+          bool notCollisMonst = (i != j && (monsters[i].x != monsters[j].x && monsters[i].y != monsters[j].y));
+
           if (((monsters[i].x + stepX <= (sizeMap - 2)) && monsters[i].x + stepX >= 1) && notCollisMonst)
           {
             map[monsters[i].x, monsters[i].y] = '.';
@@ -255,7 +273,7 @@ namespace RogueLIKE
             Console.Write(monsters[i].sign);
             map[monsters[i].x, monsters[i].y] = monsters[i].sign;
           }
-          
+
           if (((monsters[i].y + stepY <= (sizeMap - 2)) && monsters[i].y + stepY >= 1) && notCollisMonst)
           {
             map[monsters[i].x, monsters[i].y] = '.';
@@ -266,7 +284,7 @@ namespace RogueLIKE
             Console.Write(monsters[i].sign);
             map[monsters[i].x, monsters[i].y] = monsters[i].sign;
           }
-    
+
           // if (((mainHero.x - monsters[i].x) < -1) && collis)
           // {
           //   Console.SetCursorPosition(monsters[i].y, monsters[i].x);
@@ -286,11 +304,9 @@ namespace RogueLIKE
           // }
         }
       }
-    
-      return monsters;
-    }
-    
-    static char[,] MotionHero(int sizeMap,ref Hero mainHero, ref Hero[] monsters,ref char[,] map)
+    }*/
+
+    static char[,] MotionHero(int sizeMap, ref Hero mainHero, ref Hero[] monsters, ref char[,] map)
     {
       ConsoleKeyInfo key;
       key = Console.ReadKey(true);
@@ -308,6 +324,7 @@ namespace RogueLIKE
             Console.SetCursorPosition(mainHero.y, mainHero.x);
             Console.Write(mainHero.sign);
           }
+
           break;
         case ConsoleKey.UpArrow:
           x -= 1;
@@ -319,6 +336,7 @@ namespace RogueLIKE
             Console.SetCursorPosition(mainHero.y, mainHero.x);
             Console.Write(mainHero.sign);
           }
+
           break;
         case ConsoleKey.RightArrow:
           y += 1;
@@ -330,6 +348,7 @@ namespace RogueLIKE
             Console.SetCursorPosition(mainHero.y, mainHero.x);
             Console.Write(mainHero.sign);
           }
+
           break;
         case ConsoleKey.LeftArrow:
           y -= 1;
@@ -341,23 +360,24 @@ namespace RogueLIKE
             Console.SetCursorPosition(mainHero.y, mainHero.x);
             Console.Write(mainHero.sign);
           }
+
           break;
         case ConsoleKey.F:
-          map = Collision(ref mainHero,ref monsters, ref map, CreateBullet('n', mainHero));
-          break; 
+          map = Collision(ref mainHero, ref monsters, ref map, CreateBullet('n', mainHero));
+          break;
         case ConsoleKey.W:
           map = Shooting('u', ref mainHero, ref monsters, sizeMap, ref map);
-          break; 
+          break;
         case ConsoleKey.A:
           map = Shooting('l', ref mainHero, ref monsters, sizeMap, ref map);
-          break; 
+          break;
         case ConsoleKey.D:
           map = Shooting('r', ref mainHero, ref monsters, sizeMap, ref map);
-          break; 
+          break;
         case ConsoleKey.S:
           map = Shooting('d', ref mainHero, ref monsters, sizeMap, ref map);
           break;
-        
+
         case ConsoleKey.Q:
           map = Shooting('q', ref mainHero, ref monsters, sizeMap, ref map);
           break;
@@ -371,37 +391,38 @@ namespace RogueLIKE
           map = Shooting('x', ref mainHero, ref monsters, sizeMap, ref map);
           break;
       }
+
       return map;
     }
-    
+
     static Hero PlayField(int sizeMap, int numberMonst, Hero mainHero)
     {
       Hero[] monsters = new Hero[numberMonst];
       char[,] map = CreatMap(sizeMap);
-      for(int i = 0; i < numberMonst; i++)
+      for (int i = 0; i < numberMonst; i++)
       {
         monsters[i] = CreateMonsterCharacter(sizeMap);
         map[monsters[i].x, monsters[i].y] = monsters[i].sign;
       }
+
       map[mainHero.x, mainHero.y] = mainHero.sign;
       PrintMap(sizeMap, map);
       map[mainHero.x, mainHero.y] = '.';
       Console.WriteLine($"Количество HP: {mainHero.Health}");
-      
       while (true)
       {
-        // monsters = MotionMonser(ref monsters, ref mainHero, ref map, sizeMap);
-        map = MotionHero(sizeMap,ref mainHero,ref monsters,ref map);
+        map = MotionHero(sizeMap, ref mainHero, ref monsters, ref map);
         Console.SetCursorPosition(0, sizeMap);
         Console.WriteLine($"Количество HP: {mainHero.Health}");
         if (mainHero.Health == 0)
         {
           Console.SetCursorPosition(mainHero.y, mainHero.x);
-          Console.Write('X'); 
+          Console.Write('X');
           Console.SetCursorPosition(0, sizeMap);
           Console.WriteLine("Количество HP: 0 - Вы проиграли!");
           return mainHero;
         }
+
         if (mainHero.y == sizeMap - 2 && mainHero.x == sizeMap - 2 && monsters.Length == 0)
         {
           Console.Clear();
@@ -416,11 +437,12 @@ namespace RogueLIKE
       {
         var rand = new Random();
         int sizeMap = rand.Next(5, 16);
-        int numberMonst = rand.Next(sizeMap/4, sizeMap/2);
+        int numberMonst = rand.Next(sizeMap / 4, sizeMap / 2);
         Hero mainHero = CreateHeroCharacter(sizeMap);
-        
+
         if (PlayField(sizeMap, numberMonst, mainHero).Health == 0) break;
       }
     }
   }
 }
+
