@@ -7,10 +7,7 @@ namespace RogueLIKE
   {
     public int x;
     public int y;
-
     public char sign;
-
-    // public bool transparent;
     public bool IsHero;
   }
 
