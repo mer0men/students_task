@@ -1,0 +1,16 @@
+D:\Барахолка\ДЗ\rogalike\rogalike\bin\Debug\net5.0\rogalike.exe
+D:\Барахолка\ДЗ\rogalike\rogalike\bin\Debug\net5.0\rogalike.deps.json
+D:\Барахолка\ДЗ\rogalike\rogalike\bin\Debug\net5.0\rogalike.runtimeconfig.json
+D:\Барахолка\ДЗ\rogalike\rogalike\bin\Debug\net5.0\rogalike.runtimeconfig.dev.json
+D:\Барахолка\ДЗ\rogalike\rogalike\bin\Debug\net5.0\rogalike.dll
+D:\Барахолка\ДЗ\rogalike\rogalike\bin\Debug\net5.0\ref\rogalike.dll
+D:\Барахолка\ДЗ\rogalike\rogalike\bin\Debug\net5.0\rogalike.pdb
+D:\Барахолка\ДЗ\rogalike\rogalike\obj\Debug\net5.0\rogalike.csproj.AssemblyReference.cache
+D:\Барахолка\ДЗ\rogalike\rogalike\obj\Debug\net5.0\rogalike.GeneratedMSBuildEditorConfig.editorconfig
+D:\Барахолка\ДЗ\rogalike\rogalike\obj\Debug\net5.0\rogalike.AssemblyInfoInputs.cache
+D:\Барахолка\ДЗ\rogalike\rogalike\obj\Debug\net5.0\rogalike.AssemblyInfo.cs
+D:\Барахолка\ДЗ\rogalike\rogalike\obj\Debug\net5.0\rogalike.csproj.CoreCompileInputs.cache
+D:\Барахолка\ДЗ\rogalike\rogalike\obj\Debug\net5.0\rogalike.dll
+D:\Барахолка\ДЗ\rogalike\rogalike\obj\Debug\net5.0\ref\rogalike.dll
+D:\Барахолка\ДЗ\rogalike\rogalike\obj\Debug\net5.0\rogalike.pdb
+D:\Барахолка\ДЗ\rogalike\rogalike\obj\Debug\net5.0\rogalike.genruntimeconfig.cache

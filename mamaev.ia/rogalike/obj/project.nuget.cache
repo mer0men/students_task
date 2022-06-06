@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "p3QqGe01YV7vTQRk/ZtXdmnh0EgxU1Sof4sa9rVs0SXeSgWSLBYLih7qlNRRMm06jHyU2VEfrWMlbWaeGxtnQQ==",
+  "success": true,
+  "projectFilePath": "D:\\Барахолка\\ДЗ\\rogalike\\rogalike\\rogalike.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Илья\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.15\\microsoft.netcore.app.host.win-x64.5.0.15.nupkg.sha512"
+  ],
+  "logs": []
+}
